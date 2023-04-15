@@ -1,0 +1,469 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Report Parameters{% endblock %}
+{% block scripts %}
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.14.0-beta3/dist/css/bootstrap-select.min.css">
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.14.0-beta3/dist/js/bootstrap-select.min.js"></script>
+
+    <!-- (Optional) Latest compiled and minified JavaScript translation files -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.14.0-beta3/dist/js/i18n/defaults-*.min.js"></script>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/css/bootstrap-select.min.css">
+
+{% endblock %}
+{% block styles %}
+  <style>
+     @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@500&display=swap');
+
+        .header-section h2{
+          float: left;
+          font-size: 25px !important;
+          text-decoration: underline;
+        }
+        .header-section h3{
+          font-size: 18px!important;
+          text-decoration: underline;
+        }
+        .header-section h4{
+          font-size: 16px!important;
+          color: grey;
+        }
+        
+        .btn:hover{
+          color: white !important;
+          opacity: 0.8 !important;
+        }
+        .button-top{
+          margin-left: 15px;
+          background-color: #0070C0 !important;
+          color: white !important;
+        }
+        select,
+          select option {
+            color: #1b1b1b;
+          }
+        select:invalid,select option[value=""] {
+          color: #999999 !important;
+        }
+        select{
+          border: 1px solid #212529 !important;
+        }
+        input{
+          border: 1px solid #212529 !important;
+        }
+        input::placeholder{
+          color: #999999 !important;
+        }
+        select:focus{
+          border: 1px solid #0070C0 !important;
+        }
+        .form-inline-select{
+          width: 300px;
+        }
+        .list-menu-wraper{
+          padding: 2px;
+          width: 350px;
+          border: 1px solid #212529;
+          border-radius: 5px;
+          float: left;
+        }
+        .list-menu-wraper p{
+          display: block;
+          text-decoration: none;
+          padding: 3px;
+          margin: 0px;
+          color: #212529;
+        }
+        .list-menu-wraper p:hover{
+          background-color: #0070C0;
+          color: white;
+          cursor: pointer;
+        }
+        .list-menu-wraper p i{
+          float: right;
+        }
+        /*sub menu*/
+        .sub-menu-wrapper{
+          padding: 2px;
+          width: 350px;
+          border: 1px solid #212529;
+          border-radius: 5px;
+          float: left;
+          margin-left: 5px;
+        }
+        .sub-menu-wrapper p{
+          display: block;
+          text-decoration: none;
+          padding: 3px;
+          color: #212529;
+          margin: 0px;
+        }
+        .sub-menu-wrapper p:hover{
+          background-color: #0070C0;
+          color: white;
+          cursor: pointer;
+        }
+        .sub-menu-wrapper p i{
+          float: right;
+        }
+        .menu-active-class{
+          background-color: #0070C0;
+          color: white !important;
+        }
+        .sub-in-menu-wrapper{
+          padding: 2px;
+          width: 350px;
+          border: 1px solid #212529;
+          border-radius: 5px;
+          float: left;
+          margin-left: 5px;
+        }
+        input[type="checkbox"]:checked{
+          background-color: #0070C0;
+          border-color: #0070C0;
+        }
+
+        input[type='radio']:checked{
+          background-color: #0070C0;
+        }
+        .search-display{
+          width: 100%;
+          background-color: white;
+          border-radius: 2px;
+          position: absolute;
+          top: 40px;
+          box-shadow: -4px 2px 12px 0px rgba(0,0,0,0.1);
+          -webkit-box-shadow: -4px 2px 12px 0px rgba(0,0,0,0.1);
+          -moz-box-shadow: -4px 2px 12px 0px rgba(0,0,0,0.1);
+          overflow: hidden;
+        }
+        .search-display p{
+          display: block;
+          font-size: 16px;
+          margin: 0px;
+          padding-left: 7px;
+          padding-right: 7px;
+        }
+        .search-display p:hover{
+          background-color: #0070C0;
+          color: white;
+          cursor: pointer;
+        }
+        .selecteddata{
+          color: #1b1b1b;
+        }
+        .disable{
+          pointer-events: none;
+          color:#AAA;
+          background:#F5F5F5;
+        }
+        .form-check-label{
+          pointer-events: none;
+        }
+        /*css style for IE*/
+        select[disabled='disabled']::-ms-value {
+            color: grey;
+            background-color: white !important;
+        }
+        /*Specific to chrome and firefox*/
+        select[disabled='disabled'] {
+            color: grey;
+            background-color: white !important;
+        }
+        .placeholderclass{
+            color: grey;
+            background-color: white !important;
+        }
+        .btn-danger{
+          color: white !important;
+          background-color: #FFC000 !important;
+          border-color: #FFC000 !important;
+        }
+        .btn-danger:hover{
+          opacity: 0.8;
+        }
+        input{
+          text-transform: uppercase;
+        }
+        .searchBtnWrapper{
+          position: relative;
+        }
+        .bankSearchBtn{
+          position: absolute;
+          right: 18px;
+          top: 4px;
+          background-color: #0070C0 !important;
+          border-color: #0070C0 !important;
+        }
+        /* targeting mobile screens */
+        @media only screen and (max-width:480px){
+          body{
+            background-color: white;
+          }
+          .header-section{
+            border-radius: 0px;
+            box-shadow: none;
+            margin-top: 45px;
+          }
+          .list-menu-wraper{
+            width: 100%;
+          }
+          .button-top{
+            margin-top: 10px;
+          }
+        }
+  </style>
+{% endblock %}
+{% block content %}
+ <!--Header section-->
+  <section class="header-section container animate__animated">
+    <form id="reportForm" action="{% url 'ReportParametersView' %}" method="post">
+      {% csrf_token %}
+      <div style="display: block;width:100%">
+        <h2>Bank Report Parameters</h2>
+        <button type="reset" class="btn btn-danger clear-all-form" style="margin-left: 25px;">Clear Report Parameters</button>
+        <button type="submit" id="genReportBtn" class="btn button-top">Generate New Report</button><br><br>
+      </div>
+      <!--Banks -->
+      <div style="display: block;width:100%">
+        <h3>Banks</h3>
+        <div class="row" style="margin-bottom: 10px;">
+          <div class="form-check col-md-12">
+            <input required class="form-check-input banks-radio" type="radio" name="banks" value="All US banks" id="option0">
+            <label class="form-check-label" for="option0">
+              All US banks
+            </label>
+          </div>
+        </div>
+
+        <div class="row mb-1">
+          <div class="form-check col-md-3 col-sm-12">
+            <input required class="form-check-input banks-radio" type="radio" name="banks" value="US banks with branches in State" id="option1">
+            <label class="form-check-label" for="option1">
+              US banks with branches in State
+            </label>
+          </div>
+          <div class="col-md-9 col-sm-12">
+            <select required disabled="disabled" id="select-top-options1" name="USbankswithbranchesinState" class="form-select form-inline-select top-options" aria-label="Default select example" >
+              <option selected value="">- Select -</option>
+              {% for d in dm1 %}
+                <option value="{{ d.value }}">{{ d.label }}</option>
+              {% endfor %}
+            </select>
+          </div>
+        </div>
+
+        <div class="row mb-1">
+          <div class="form-check col-md-3 col-sm-12">
+            <input required class="form-check-input banks-radio" type="radio" name="banks" value="US banks with branches near Location" id="option2">
+            <label class="form-check-label" for="option2">
+              US banks with branches near Location
+            </label>
+          </div>
+          <div class="col-md-3 col-sm-12" style="position: relative">
+            <input required disabled="disabled" id="branchlocation" name="bankbranchlocation" type="text" class="form-control top-options placeholderclass" placeholder="- Enter city, state -">
+            <!--<input disabled="disabled" value="default" style="display: none" id="branchlocation2" name="bankbranchlocation2" type="text" class="form-control top-options placeholderclass" placeholder="-Enter city, state -">
+            <div class="search-display" id="bankbranchlocationDiv" style="z-index: 10">
+              <img src="{% static 'images/dataloader.gif' %}" alt="data loader" style="margin: 5px;display: none" id="dataloader">
+            </div>-->
+          </div>
+          &nbsp;Within
+          <div class="col-md-3 col-sm-12">
+            <select required disabled="disabled" id="select-top-options2" name="milesDistance" class="form-select form-inline-select top-options" aria-label="Default select example">
+              <option selected disabled value="">-Select-</option>
+              {% for d in dm3 %}
+                <option value="{{ d.value }}">{{ d.label }}</option>
+              {% endfor %}
+            </select>
+          </div>
+        </div>
+
+        <div class="row mb-1" id="usbanksinpeer">
+          <div class="form-check col-md-3">
+            <input required class="form-check-input banks-radio" type="radio" name="banks" value="US banks in Bank Peer Group" id="option3">
+            <label class="form-check-label" for="option3">
+              US banks in Bank Peer Group
+            </label>
+          </div>
+          <div class="col-md-9">
+            <select required id="select-top-options3" disabled="disabled" name="usbanksinBankPeerGroup" class="form-select top-options" aria-label="Default select example">
+              <option selected disabled value="">-Select-</option>
+              {% for d in dm4 %}
+                <option value="{{ d.value }}">[{{ forloop.counter }}] {{ d.label }}</option>
+              {% endfor %}
+            </select>
+          </div>
+        </div>
+
+        <div class="row mb-1">
+          <div class="form-check col-md-2">
+            <input required class="form-check-input banks-radio" type="radio" name="banks" value="Single US Bank" id="option4">
+            <label class="form-check-label" for="option4">
+              Single US Bank
+            </label>
+          </div>
+          <div class="col-md-10 searchBtnWrapper" style="position: relative">
+            <input required disabled="disabled" value=""  id="singleusbank1" name="singleusbank1" type="text" class="form-control top-options placeholderclass" placeholder="- Enter Partial Bank Name -">
+            <input disabled="disabled" value="default" style="display: none" id="singleusbank2" name="singleusbank2" type="text" class="form-control top-options placeholderclass" placeholder="-Enter city, state -">
+            <a href="#" class="btn btn-sm btn-primary bankSearchBtn">Search</a>
+            <div class="search-display">
+              <img src="{% static 'images/dataloader.gif' %}" alt="data loader" style="margin: 5px;display: none" id="dataloader2">
+              <div id="singleusBankDiv"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!--Periods-->
+      <div style="margin-top: 40px;">
+        <h3>Periods</h3>
+        <div class="row mb-1">
+          <div class="form-check col-md-3">
+            <input required class="form-check-input period" type="radio" name="periods" value="4 consecutive quarterly reports ending" id="option5">
+            <label class="form-check-label" for="option5">
+              4 consecutive quarterly reports ending
+            </label>
+          </div>
+          <div class="col-md-9">
+            <select required id="period1" disabled="disabled" name="consecutivequarterlyreportsending" class="form-select form-inline-select periodselect" aria-label="Default select example">
+              <option selected disabled value="">-Select-</option>
+              {% for d in p1 %}
+                <option value="{{ d.id }}">{{ d.label }}</option>
+              {% endfor %}
+            </select>
+          </div>
+        </div>
+
+        <div class="row mb-1">
+          <div class="form-check col-md-3">
+            <input class="form-check-input period" type="radio" name="periods" value="4 consecutive year-end reports ending" id="option6">
+            <label class="form-check-label" for="option6">
+              4 consecutive year-end reports ending
+            </label>
+          </div>
+          <div class="col-md-9">
+            <select required disabled="disabled" id="period2" name="consecutiveyearendreportsending" class="form-select form-inline-select periodselect" aria-label="Default select example">
+              <option selected disabled value="">-Select-</option>
+              {% for d in p2 %}
+                <option value="{{ d.id }}">{{ d.label }}</option>
+              {% endfor %}
+            </select>
+          </div>
+        </div>
+
+      </div>
+
+        <script src="{% static 'formValidation.js' %}"></script>
+
+        <!--Data-->
+      <div class="row" style="margin-top: 40px;">
+        <div class="col-md-12">
+          <h3 style="float: left;">Data</h3>
+          <h3 style="text-decoration: none !important;float: left;margin-left: 10px;">- select up to 6</h3>
+          <button id="clear-select-data" type="button" style="float: left;margin-left: 42px;" class="btn btn-danger btn-sm clear-select-data">Clear Selected Data</button>
+        </div>
+        <p class="dataItemClearMessage" style="color: orange;margin-bottom: 0px;font-size: 14px;font-weight: 200;margin-top: 10px">Click on the Clear Selected Data button to clear one or more selected data.</p>
+        <!--Data Main Menu-->
+        <div class="col-md-12 mt-2">
+          <div class="list-menu-wraper">
+            {% for d in ddm %}
+              <p onclick="mainMenuDataFields('{{ d.label }}')" class="mainmenuitem" id="mainmenu{{ forloop.counter }}">{{ d.label }}<i class="fas fa-angle-right"></i></p>
+            {% endfor %}
+          </div>
+
+          <!--###############-->
+          <!--Data Menu 1 submenu-->
+          <div class="sub-menu-wrapper" id="sm1" style="display: none">
+            {% for d in sm1 %}
+              <p onclick="subMenuDataFields('{{ d.label }}')" class="submenuitem" id="sm1submenu{{ forloop.counter }}">{{ d.label }}<i class="fas fa-angle-right"></i></p>
+            {% endfor %}
+          </div>
+          <!--Menu 2 submenu-->
+          <div class="sub-menu-wrapper" id="sm2" style="display: none">
+            {% for d in sm2 %}
+              <p onclick="subMenuDataFields('{{ d.label }}')" class="submenuitem" id="sm2submenu{{ forloop.counter }}">{{ d.label }}<i class="fas fa-angle-right"></i></p>
+            {% endfor %}
+          </div>
+          <!--Menu 3 submenu-->
+          <div class="sub-menu-wrapper" id="sm3" style="display: none">
+            {% for d in sm3 %}
+              <p onclick="subMenuDataFields('{{ d.label }}')" class="submenuitem" id="sm3submenu{{ forloop.counter }}">{{ d.label }}<i class="fas fa-angle-right"></i></p>
+            {% endfor %}
+          </div>
+          <!--Menu 4 submenu-->
+          <div class="sub-menu-wrapper" id="sm4" style="display: none">
+            {% for d in sm4 %}
+              <div class="form-check" onclick="showUncheckMessage('{{ d.id }}')">
+                <input onclick="subinMenuDataFields47('{{ d.id }}','{{ d.label }}')" class="form-check-input data-item-checklist" type="checkbox" value="{{ d.label }}" id="flexCheck{{ forloop.counter }}">
+                <label class="form-check-label" for="flexCheck{{ forloop.counter }}">
+                  {{ d.label }}
+                </label>
+              </div>
+            {% endfor %}
+          </div>
+          <!--Menu 5 submenu-->
+          <div class="sub-menu-wrapper" id="sm5" style="display: none">
+            {% for d in sm5 %}
+              <p onclick="subMenuDataFields('{{ d.label }}')" class="submenuitem" id="sm5submenu{{ forloop.counter }}">{{ d.label }}<i class="fas fa-angle-right"></i></p>
+            {% endfor %}
+          </div>
+          <!--Menu 6 submenu-->
+          <div class="sub-menu-wrapper" id="sm6" style="display: none">
+            {% for d in sm6 %}
+              <p onclick="subMenuDataFields('{{ d.label }}')" class="submenuitem" id="sm6submenu{{ forloop.counter }}">{{ d.label }}<i class="fas fa-angle-right"></i></p>
+            {% endfor %}
+          </div>
+          <!--Menu 7 submenu-->
+          <div class="sub-menu-wrapper" id="sm7" style="display: none">
+            {% for d in sm7 %}
+              <div class="form-check" onclick="showUncheckMessage('{{ d.id }}')">
+                <input onclick="subinMenuDataFields47('{{ d.id }}','{{ d.label }}')" class="form-check-input data-item-checklist" type="checkbox" value="{{ d.label }}" id="flexCheck2{{ forloop.counter }}">
+                <label class="form-check-label" for="flexCheck2{{ forloop.counter }}">
+                  {{ d.label }}
+                </label>
+              </div>
+            {% endfor %}
+          </div>
+
+          <!--########################## including sub in menu -->
+          {% include 'form-data-part.html' %}
+
+          <!--Data selected fields for js logics -->
+          <input name="dataItemsCounter" id="mainmenucounter" type="number" value="0" hidden>
+
+          <!--Storing selected values in the input fields-->
+          <input name="data1" id="data1" type="number" value="" hidden>
+          <input name="data2" id="data2" type="number" value="" hidden>
+          <input name="data3" id="data3" type="number" value="" hidden>
+          <input name="data4" id="data4" type="number" value="" hidden>
+          <input name="data5" id="data5" type="number" value="" hidden>
+          <input name="data6" id="data6" type="number" value="" hidden>
+          <input id="mainMenuText" type="text" hidden>
+          <input id="subMenuText" type="text" hidden>
+        </div>
+      </div>
+
+      <!--Data Selected-->
+      <div class="row" style="margin-top: 40px;">
+        <h3>Data Selected</h3>
+        <h4><span id="selected-data1" class="selecteddata"><span id="sd1"></span><span id="sd2"></span><span id="sd3"></span></span><span class="data-placeholder" id="data-placeholder1">Data #1</span></h4>
+        <h4><span id="selected-data2" class="selecteddata"><span id="sd2-1"></span><span id="sd2-2"></span><span id="sd2-3"></span></span><span class="data-placeholder"  id="data-placeholder2">Data #2</span></h4>
+        <h4><span id="selected-data3" class="selecteddata"><span id="sd3-1"></span><span id="sd3-2"></span><span id="sd3-3"></span></span><span class="data-placeholder"  id="data-placeholder3">Data #3</span></h4>
+        <h4><span id="selected-data4" class="selecteddata"><span id="sd4-1"></span><span id="sd4-2"></span><span id="sd4-3"></span></span><span class="data-placeholder"  id="data-placeholder4">Data #4</span></h4>
+        <h4><span id="selected-data5" class="selecteddata"><span id="sd5-1"></span><span id="sd5-2"></span><span id="sd5-3"></span></span><span class="data-placeholder"  id="data-placeholder5">Data #5</span></h4>
+        <h4><span id="selected-data6" class="selecteddata"><span id="sd6-1"></span><span id="sd6-2"></span><span id="sd6-3"></span></span><span class="data-placeholder"  id="data-placeholder6">Data #6</span></h4>
+      </div>
+  </form>
+  </section>
+
+    {% include 'modals/home-modals.html' %}
+
+    {% block jslogics %}
+    <script src="{% static 'reportParameters.js' %}"></script>
+    {% endblock %}
+
+
+{% endblock %}

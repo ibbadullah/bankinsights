@@ -1,0 +1,272 @@
+{% load filters %}
+
+<table class="table table-bordered">
+            <!--Headings-->
+            <tr>
+                <!--Column headings td. New td can be added for more columns below but loop does the job-->
+                {% for columnHeading in Data.ColumnHeadings %}
+                    <td class="myGborder">{{ columnHeading.column_heading|linebreaks }}</td>
+                {% endfor %}
+            </tr>
+
+
+            <!--Data Graphs-->
+            <tr>
+                <!--Graphs-->
+                <td class="myGborder">
+                    <table>
+                        <tr>
+                            <td >
+                                <div id="graph1" style="width:300px;height:300px;"></div>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+
+                <td class="myGborder">
+                    <table>
+                        <tr>
+                            <td >
+                                <div id="graph2" style="width:300px;height:300px;"></div>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+
+                <td class="myGborder">
+                    <table>
+                        <tr>
+                            <td>
+                                <div id="graph3" style="width:300px;height:300px;"></div>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+
+                <td class="myGborder">
+                    <table>
+                        <tr>
+                            <td>
+                                <div id="graph4" style="width:300px;height:300px;"></div>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+
+            </tr>
+</table>
+
+
+<script>
+        var trace1 = {
+        y: ['{{ Data.AverageGraphsData.AV1.avg1|floatformat:"0" }}'],
+        width: [0.15],
+        name : "{{ RequiredItems.PeriodLables.0 }}",
+        marker:{
+            color: ['rgb(240, 232, 5)']
+        },
+        type: 'bar',
+        };
+
+        var trace2 = {
+        y: ['{{ Data.AverageGraphsData.AV2.avg2|floatformat:"0" }}'],
+        width: [0.15],
+        name : "{{ RequiredItems.PeriodLables.1 }}",
+        marker:{
+            color: ['rgb(24, 106, 214)']
+        },
+        type: 'bar',
+        };
+
+        var trace3 = {
+        y: ['{{ Data.AverageGraphsData.AV3.avg3|floatformat:"0" }}'],
+        width: [0.15],
+        name : "{{ RequiredItems.PeriodLables.2 }}",
+        marker:{
+            color: ['rgb(12, 179, 84)']
+        },
+        type: 'bar',
+        };
+
+        var trace4 = {
+        y: ['{{ Data.AverageGraphsData.AV4.avg4|floatformat:"0" }}'],
+        width: [0.15],
+        name : "{{ RequiredItems.PeriodLables.3 }}",
+        marker:{
+            color: ['rgb(230, 9, 61)']
+        },
+        type: 'bar',
+        };
+
+        var data = [trace1,trace2,trace3,trace4];
+
+
+        var layout = {
+            barmode: 'group',
+            font: {
+                size: 15,
+            }
+        };
+
+        Plotly.newPlot('graph1', data, layout);
+
+        // Second graph
+        var trace2_1 = {
+        y: ['{{ Data.AverageGraphsData.AV1.avg1_2|floatformat:"0" }}'],
+        width: [0.15],
+        name : "{{ RequiredItems.PeriodLables.0 }}",
+        marker:{
+            color: ['rgb(240, 232, 5)']
+        },
+        type: 'bar',
+        };
+
+        var trace2_2 = {
+        y: ['{{ Data.AverageGraphsData.AV2.avg2_2|floatformat:"0" }}'],
+        width: [0.15],
+        name : "{{ RequiredItems.PeriodLables.1 }}",
+        marker:{
+            color: ['rgb(24, 106, 214)']
+        },
+        type: 'bar',
+        };
+
+        var trace2_3 = {
+        y: ['{{ Data.AverageGraphsData.AV3.avg3_2|floatformat:"0" }}'],
+        width: [0.15],
+        name : "{{ RequiredItems.PeriodLables.2 }}",
+        marker:{
+            color: ['rgb(12, 179, 84)']
+        },
+        type: 'bar',
+        };
+
+        var trace2_4 = {
+        y: ['{{ Data.AverageGraphsData.AV4.avg4_2|floatformat:"0" }}'],
+        width: [0.15],
+        name : "{{ RequiredItems.PeriodLables.3 }}",
+        marker:{
+            color: ['rgb(230, 9, 61)']
+        },
+        type: 'bar',
+        };
+
+        var data2 = [trace2_1,trace2_2,trace2_3,trace2_4];
+
+
+        var layout2 = {
+            barmode: 'group',
+            font: {
+                size: 15,
+            }
+        };
+
+        Plotly.newPlot('graph2', data2, layout2);
+
+        // third graph
+        var trace3_1 = {
+        y: ['{{ Data.AverageGraphsData.AV1.avg1_3|floatformat:"0" }}'],
+        width: [0.15],
+        name : "{{ RequiredItems.PeriodLables.0 }}",
+        marker:{
+            color: ['rgb(240, 232, 5)']
+        },
+        type: 'bar',
+        };
+
+        var trace3_2 = {
+        y: ['{{ Data.AverageGraphsData.AV2.avg2_3|floatformat:"0" }}'],
+        width: [0.15],
+        name : "{{ RequiredItems.PeriodLables.1 }}",
+        marker:{
+            color: ['rgb(24, 106, 214)']
+        },
+        type: 'bar',
+        };
+
+        var trace3_3 = {
+        y: ['{{ Data.AverageGraphsData.AV3.avg3_3|floatformat:"0" }}'],
+        width: [0.15],
+        name : "{{ RequiredItems.PeriodLables.2 }}",
+        marker:{
+            color: ['rgb(12, 179, 84)']
+        },
+        type: 'bar',
+        };
+
+        var trace3_4 = {
+        y: ['{{ Data.AverageGraphsData.AV4.avg4_3|floatformat:"0" }}'],
+        width: [0.15],
+        name : "{{ RequiredItems.PeriodLables.3 }}",
+        marker:{
+            color: ['rgb(230, 9, 61)']
+        },
+        type: 'bar',
+        };
+
+        var data3 = [trace3_1,trace3_2,trace3_3,trace3_4];
+
+
+        var layout3 = {
+            barmode: 'group',
+            font: {
+                size: 15,
+            }
+        };
+
+        Plotly.newPlot('graph3', data3, layout3);
+
+
+        // fourth graph
+        var trace4_1 = {
+        y: ['{{ Data.AverageGraphsData.AV1.avg1_4|floatformat:"0" }}'],
+        width: [0.15],
+        name : "{{ RequiredItems.PeriodLables.0 }}",
+        marker:{
+            color: ['rgb(240, 232, 5)']
+        },
+        type: 'bar',
+        };
+
+        var trace4_2 = {
+        y: ['{{ Data.AverageGraphsData.AV2.avg2_4|floatformat:"0" }}'],
+        width: [0.15],
+        name : "{{ RequiredItems.PeriodLables.1 }}",
+        marker:{
+            color: ['rgb(24, 106, 214)']
+        },
+        type: 'bar',
+        };
+
+        var trace4_3 = {
+        y: ['{{ Data.AverageGraphsData.AV3.avg3_4|floatformat:"0" }}'],
+        width: [0.15],
+        name : "{{ RequiredItems.PeriodLables.2 }}",
+        marker:{
+            color: ['rgb(12, 179, 84)']
+        },
+        type: 'bar',
+        };
+
+        var trace4_4 = {
+        y: ['{{ Data.AverageGraphsData.AV4.avg4_4|floatformat:"0" }}'],
+        width: [0.15],
+        name : "{{ RequiredItems.PeriodLables.3 }}",
+        marker:{
+            color: ['rgb(230, 9, 61)']
+        },
+        type: 'bar',
+        };
+
+        var data4 = [trace4_1,trace4_2,trace4_3,trace4_4];
+
+
+        var layout4 = {
+            barmode: 'group',
+            font: {
+                size: 15,
+            }
+        };
+
+        Plotly.newPlot('graph4', data4, layout4);
+</script>

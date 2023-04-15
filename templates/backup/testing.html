@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block title %}BankInsights{% endblock %}
+{% block styles %}
+  <style>
+
+  </style>
+{% endblock %}
+{% block content %}
+   <div class="container">
+     {% for d in d %}
+      <p>{{ d.city }}, {{ d.state }}</p>
+    {% endfor %}
+   </div>
+
+{% endblock %}

@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}BankInsights{% endblock %}
+{% block scripts %}
+    <script src="{% static 'graphics-lib.js' %}"></script>
+{% endblock %}
+{% block styles %}
+  <style>
+      .data-gripitem{
+          padding: 0px !important;
+          margin: 0px !important;
+          border-style: none;
+          font-size: 13px;
+      }
+      .table-td-headings{
+          width:250px;
+          height:297px;
+      }
+  </style>
+{% endblock %}
+{% block content %}
+
+   <div class="container" style="margin-top: 150px;">
+
+   </div>
+
+
+    <div class="container animate__animated animate__fadeInUp" style="margin-top: 100px; padding: 50px; background-color: white">
+
+        <!-- Button trigger modal -->
+        {% for d in Data %}
+            <p>{{ d.0 }}</p>
+        {% endfor %}
+        {{ C }}
+
+    </div>
+
+<script>
+    $.cookie('testcookies','{{ Data }}');
+</script>
+
+{% endblock %}

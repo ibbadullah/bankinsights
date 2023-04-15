@@ -1,0 +1,83 @@
+{% load filters %}
+
+<table class="table table-bordered">
+            <!--Headings-->
+            <tr>
+                <!--Column headings td. New td can be added for more columns below but loop does the job-->
+                {% for columnHeading in Data.ColumnHeadings %}
+                    <td class="myGborder">{{ columnHeading.column_heading|linebreaks }}</td>
+                {% endfor %}
+            </tr>
+
+
+            <!--Data Graphs-->
+            <tr>
+                <!--Graphs-->
+                <td class="myGborder">
+                    <table>
+                        <tr>
+                            <td >
+                                <div id="graph1" style="width:300px;height:300px;"></div>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+
+            </tr>
+</table>
+
+
+<script>
+        var trace1 = {
+        y: ['{{ Data.AV1.avg1|floatformat:"0" }}'],
+        width: [0.15],
+        name : "{{ Data.LabelsList.0 }}",
+        marker:{
+            color: ['rgb(240, 232, 5)']
+        },
+        type: 'bar',
+        };
+
+        var trace2 = {
+        y: ['{{ Data.AV2.avg2|floatformat:"0" }}'],
+        width: [0.15],
+        name : "{{ Data.LabelsList.1 }}",
+        marker:{
+            color: ['rgb(24, 106, 214)']
+        },
+        type: 'bar',
+        };
+
+        var trace3 = {
+        y: ['{{ Data.AV3.avg3|floatformat:"0" }}'],
+        width: [0.15],
+        name : "{{ Data.LabelsList.2 }}",
+        marker:{
+            color: ['rgb(12, 179, 84)']
+        },
+        type: 'bar',
+        };
+
+        var trace4 = {
+        y: ['{{ Data.AV4.avg4|floatformat:"0" }}'],
+        width: [0.15],
+        name : "{{ Data.LabelsList.3 }}",
+        marker:{
+            color: ['rgb(230, 9, 61)']
+        },
+        type: 'bar',
+        };
+
+        var data = [trace1,trace2,trace3,trace4];
+
+
+        var layout = {
+            barmode: 'group',
+            font: {
+                size: 15,
+            }
+        };
+
+        Plotly.newPlot('graph1', data, layout);
+
+</script>

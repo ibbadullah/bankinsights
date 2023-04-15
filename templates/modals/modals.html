@@ -1,0 +1,132 @@
+{% load static %}
+<!-- Modal for filter range -->
+<div class="modal fade" id="rangemodal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="rangemodalhmodalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="rangeLabel">Filter</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body" style="margin-bottom: 20px">
+          <p class="errormessage" style="color: red"></p>
+          <form action="" method="get">
+              <input id="filternumber" value="" type="hidden">
+              <input id="r1" class="form-control" placeholder="From" type="number">
+              <br>
+              <input id="r2" class="form-control" placeholder="To" type="number">
+              <br>
+              <button onclick="submitRange()" type="button" class="btn btn-primary rangeSubmitBtn">Apply</button>
+          </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- Modal for bank name search -->
+<div class="modal fade" id="banksearchmodal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="banksearchmodalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="staticBackdropLabel">Bank</h5>
+        <button type="button" class="btn-close modalclosebtn" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body" style="margin-bottom: 20px">
+          <form action="#" method="POST" id="bankSearchForm">
+            {% csrf_token %}
+            <div class="input-group mb-3">
+                  <input required style="text-transform: uppercase" type="text" class="form-control" id="singleBank" placeholder="Search for bank..." aria-label="Recipient's username" aria-describedby="button-addon2">
+                  <button style="border-top-right-radius: 4px;border-bottom-right-radius: 4px" class="btn btn-outline-secondary" type="submit" id="button-addon2">Search</button>
+                  <input id="banks" type="text" hidden value="{{ RequiredItems.Banks }}">
+                  <input id="periods" type="text" hidden value="{{ Data.PeriodsList }}">
+                  <input id="rssdIDs" type="text" hidden value="{{ RequiredItems.RSSDIDs }}">
+            </div>
+          </form>
+          <img style="display: none" src="{% static 'images/dataloader.gif' %}" id="dataloader2" alt="Loader">
+          <div class="modalbanknames" id="bankDiv">
+          </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<script>
+// Storing filter numbers
+function storeFilterNum(number) {
+    $('#filternumber').val(number);
+}
+
+// logic for bank search
+$(document).ready(function () {
+  // Removing loading and data from modal
+  $('.modalclosebtn').click(function () {
+      $('#dataloader2').hide();
+      $('#bankDiv').html('');
+      $("#singleBank").val('');
+  });
+
+  // Form submitting
+  $("#bankSearchForm").submit(function (e) {
+    e.preventDefault();
+    var inputVal = $("#singleBank").val();
+    var banksListDiv = document.getElementById('bankDiv');
+    banksListDiv.innerHTML = "";
+    $('#dataloader2').show();
+
+    // sending ajax request
+    $.ajax({
+      type: 'POST',
+      url: "../datagridbank/",
+      data: {
+          userquery: inputVal,
+          bank: $('#banks').val(),
+          rssdIds: $('#rssdIDs').val(),
+          periods: $('#periods').val(),
+          csrfmiddlewaretoken: '{{ csrf_token }}',
+      },
+      success: (res) => {
+        $('#dataloader2').hide();
+        const data = res.data;
+        console.log("Sucess working!");
+        banksListDiv.innerHTML += "";
+        if (Array.isArray(data)) {
+          // now displaying the search results
+          data.forEach(items => {
+            banksListDiv.innerHTML += `
+                    <a target="_blank" class="actionbtn" href="{% url 'SingleBankReport' %}?id='${items.rssid}'&count={{ RequiredItems.DataCount }}&periods={{ Data.PeriodsList }}&columns={{ Data.ColumnNames }}&labels={{ RequiredItems.PeriodLables }}">${items.bankname}</a>
+                   `
+          })
+        } else {
+            banksListDiv.innerHTML = '';
+            banksListDiv.innerHTML += `
+                  <div style="padding: 10px">${data}</div>
+                  `
+        }
+      },
+      error: (err => {
+          console.log("Error working!");
+      })
+    });
+  });
+})
+
+
+// function for submitting range form redirecting
+function submitRange() {
+    var r1 = $('#r1').val();
+    var r2 = $('#r2').val();
+    if (r1 != '' && r2 != ''){
+        $('#rangemodal').hide();
+        $('.modal-backdrop').css('display','none');
+        $('.action-loader').css('display','block');
+        var filter = document.getElementById('filternumber').value;
+        var location = "../report-filters/?req=range&f1=0&f2={% if Data.TotalItems > 30 %}30{% else %}{{ Data.TotalItems }}{% endif %}&bnsort=&lableslist={{ RequiredItems.FPeriodsLables }}&columns={{ Data.ColumnNames }}&count={{ RequiredItems.DataCount }}&periods={{ Data.PeriodsList }}&sort=&bank={{ RequiredItems.Banks }}&speriod={{ RequiredItems.PeriodSelection }}&slabel={{ RequiredItems.SinglePeriodLabel }}&bstates={{ RequiredItems.BranchesStateValue }}&blocation={{ RequiredItems.BLocation }}&m={{ RequiredItems.Milesdistance }}&pgroup={{ RequiredItems.PGroup }}&rid={{ RequiredItems.RID }}&r1="+`${r1}`+"&r2="+`${r2}`+"&range="+`${filter}`+"&sortslist={{ request.GET.sort }},{{ request.GET.sortslist }}&rangeslist={{ request.GET.range }},{{ request.GET.rangeslist }}";
+        redirect = window.open(location,"_self");
+        return redirect;
+    }
+    else {
+        $('.errormessage').html("Please fill both the fields!")
+    }
+}
+</script>

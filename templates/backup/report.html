@@ -1,0 +1,575 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Reports{% endblock %}
+{% block scripts %}
+    <script src="{% static 'graphics-lib.js' %}"></script>
+{% endblock %}
+{% block styles %}
+  <style>
+     @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@500&display=swap');
+        
+        .header-section{
+          background-color: white;
+          border-radius: 10px;
+          margin-top: 130px;
+          box-shadow: -4px 2px 12px 0px rgba(0,0,0,0.2);
+          -webkit-box-shadow: -4px 2px 12px 0px rgba(0,0,0,0.2);
+          -moz-box-shadow: -4px 2px 12px 0px rgba(0,0,0,0.2);
+        }
+        .header-section h2{
+          float: left;
+          font-size: 25px !important;
+          margin: 30px 0px 0px 30px
+        
+        }
+        .header-section h3{
+          font-size: 18px!important;
+          
+        }
+        .header-section h4{
+          font-size: 16px!important;
+        }
+        
+        .btn:hover{
+          color: white !important;
+          opacity: 0.8 !important;
+        }
+        .bank-details-wrapper{
+            border: 1px solid #3C3B6E;
+            border-radius: 5px;
+            width: 95%;
+            margin-left: 2.5% !important;
+        }
+        .graphs-section{
+          margin-top: 50px;
+        }
+        .graphs-wrapper{
+          overflow-x: auto;
+          overflow-y: auto;
+          max-width: 100%;
+        }
+        .tables-section{
+          margin-top: 50px;
+          position: relative;
+        }
+        .tables-wrapper{
+          overflow-x: auto;
+          overflow-y: auto;
+          max-width: 100%;
+          position: relative;
+        }
+        td{
+          font-size: 13px;
+        }
+        .file-icon:hover{
+          opacity: 0.7;
+          cursor: pointer;
+        }
+        .sortbtn:hover{
+          cursor: pointer;
+        }
+        td table tr td{
+          font-size: 11px !important;
+        }
+        .loadmorebtn{
+          background-color: white !important;
+          color: #3C3B6E !important;
+          border: 1px solid #3C3B6E !important;
+          border-radius: 35px !important;
+          margin-top: 10px;
+          margin-bottom: 30px;
+          margin-left: 20px;
+          font-size: 14px !important;
+
+        }
+        .loadmorebtn:hover{
+          background-color: #3C3B6E !important;
+          color: white !important;
+        }
+        .table-label-wrapper{
+          left: -20px;
+          transform: rotate(-90deg);
+          font-size: 11px !important;
+          margin-top: 25px;
+          position: absolute;
+        }
+        .table-label-wrapper p{
+          margin: 2px;
+          padding: 0px;
+        }
+        
+        /* targeting mobile screens */
+        @media only screen and (max-width:480px){
+          body{
+            background-color: white;
+          }
+          .table-label-wrapper{
+            left: -30px;
+          }
+          .header-section{
+            border-radius: 0px;
+            box-shadow: none;
+            margin-top: 45px;
+          }
+          
+        }
+  </style>
+{% endblock %}
+{% block content %}
+
+  <!--Header section-->
+  <section class="header-section container animate__animated animate__fadeInUp">
+      <div class="row">
+          <div class="col-md-6">
+            <h2>Bank Report Parameters</h2>
+          </div>
+          <div class="col-md-6">
+            <button class="btn btn-outline-primary" style="float: right; margin: 30px 30px 0px 0px">Change Report Parameters</button>
+          </div>
+      </div><br>
+      <!--Bank details-->
+      <div class="row bank-details-wrapper">
+          <div class="col-md-1 mt-2">
+              <h4>Bank</h4>
+          </div>
+          <div class="col-md-11 mt-2">
+            <h4>State: Colorado</h4>
+        </div>
+        <div class="col-md-1 mt-4">
+            <h4>Period</h4>
+        </div>
+        <div class="col-md-11 mt-4">
+            <h4>4 consecutive quarterly reports ending 2021-Q4</h4>
+       </div>
+       <div class="col-md-1 mt-4">
+            <h4>Data</h4>
+        </div>
+        <div class="col-md-11 mt-4">
+            <h4>
+                Real Estate - Residential First - Nonaccrual Balance<br>
+                Real Estate - Residential First - Nonaccrual One Year Change ($)<br>
+                REO - Residential - Balance<br>
+                ALLL - Residential - One Year Change (%)
+
+            </h4>
+        </div>
+      
+      </div>
+
+       <!--Graphs-->
+       <div class="graphs-section">
+         <div class="graphs-wrapper">
+            <table class="table table-bordered">
+              <tr>
+                <td ><br><br>
+                  Bank</td>
+                
+                <td>
+                  Real Estate<br>
+                  Residential First<br>
+                  Nonaccrual Balance ($000)
+                </td>
+                <td>
+                  Real Estate<br>
+                  Residential First<br>
+                  Nonaccrual One Year Change ($000)
+                </td>
+                <td>
+                  REO<br>
+                  Residential<br>
+                  Balance ($000)
+                </td>
+                <td>
+                  ALLL<br>
+                  Residential<br>
+                  One Year Change (%)
+                </td>
+              </tr>
+
+              <!--Graphs-->
+              <tr>
+                <td>
+                  Average of All Banks Selected: 0,000 banks
+                </td>
+                <td>
+                  <div id="graph1" style="width:280px;height:280px;"></div>
+                </td>
+                <td>
+                  <div id="graph2" style="width:280px;height:280px;"></div>
+                </td>
+                <td>
+                  <div id="graph3" style="width:280px;height:280px;"></div>
+                </td>
+                <td>
+                  <div id="graph4" style="width:280px;height:280px;"></div>
+                </td>
+              </tr>
+
+              <tr>
+                <td>
+                  COLORADO BANK AND TRUST COMPANY OF LA ...<br><br>
+                  <button style="font-size: 10px;" class="btn btn-outline-danger btn-sm">REMOVE BANK</button>
+                </td>
+                <td>
+                  <div id="graph5" style="width:280px;height:280px;"></div>
+                </td>
+                <td>
+                  <div id="graph6" style="width:280px;height:280px;"></div>
+                </td>
+                <td>
+                  <div id="graph7" style="width:280px;height:280px;"></div>
+                </td>
+                <td>
+                  <div id="graph8" style="width:280px;height:280px;"></div>
+                </td>
+              </tr>
+
+            </table>
+
+         </div>
+          
+       </div>
+
+       <!--Tables-->
+       <div class="tables-section">
+        <div class="tables-wrapper">
+          <div class="table-label-wrapper">
+            <p>Full Bank Report</p>
+            <p>Graph Bank Data</p>
+          </div>
+           <table class="table table-bordered table-striped">
+             <tr style="border-style: none;">
+               <td style="border-style: none;opacity: 0;"></td>
+               <td style="border-style: none;opacity: 0;"></td>
+               <td class="border-top">
+                 Real Estate<br>
+                 Residential First<br>
+                 Nonaccrual Balance ($000)
+               </td>
+               <td class="border-top">
+                 Real Estate<br>
+                 Residential First<br>
+                 Nonaccrual One Year Change ($000)
+               </td>
+               <td class="border-top">
+                 REO<br>
+                 Residential<br>
+                 Balance ($000)
+               </td>
+               <td class="border-top">
+                 ALLL<br>
+                 Residential<br>
+                 One Year Change (%)
+               </td>
+             </tr>
+
+             <tr style="border-style: none;">
+               <td style="border-style: none;"></td>
+               <td class="border-top">
+                  Bank
+                  <i style="float: right;" class="fas fa-sort sortbtn"></i>
+               </td>
+               <td class="border-top" style="padding: 0px;">
+                 <table class="table table-bordered" style="margin-bottom: 0px;">
+                   <tr>
+                     <td>2021-Q1 <i style="float: right;" class="fas fa-sort sortbtn"></i></td>
+                     <td>2021-Q2 <i style="float: right;" class="fas fa-sort sortbtn"></i></td>
+                     <td>2021-Q3 <i style="float: right;" class="fas fa-sort sortbtn"></i></td>
+                     <td>2021-Q4 <i style="float: right;" class="fas fa-sort sortbtn"></i></td>
+                   </tr>
+                 </table>
+               </td>
+               <td class="border-top" style="padding: 0px;">
+                <table class="table table-bordered" style="margin-bottom: 0px;">
+                  <tr>
+                    <td>2021-Q1 <i style="float: right;" class="fas fa-sort sortbtn"></i></td>
+                    <td>2021-Q2 <i style="float: right;" class="fas fa-sort sortbtn"></i></td>
+                    <td>2021-Q3 <i style="float: right;" class="fas fa-sort sortbtn"></i></td>
+                    <td>2021-Q4 <i style="float: right;" class="fas fa-sort sortbtn"></i></td>
+                  </tr>
+                </table>
+              </td>
+              <td class="border-top" style="padding: 0px;">
+                <table class="table table-bordered" style="margin-bottom: 0px;">
+                  <tr>
+                    <td>2021-Q1 <i style="float: right;" class="fas fa-sort sortbtn"></i></td>
+                    <td>2021-Q2 <i style="float: right;" class="fas fa-sort sortbtn"></i></td>
+                    <td>2021-Q3 <i style="float: right;" class="fas fa-sort sortbtn"></i></td>
+                    <td>2021-Q4 <i style="float: right;" class="fas fa-sort sortbtn"></i></td>
+                  </tr>
+                </table>
+              </td>
+              <td class="border-top" style="padding: 0px;">
+                <table class="table table-bordered" style="margin-bottom: 0px;">
+                  <tr>
+                    <td>2021-Q1 <i style="float: right;" class="fas fa-sort sortbtn"></i></td>
+                    <td>2021-Q2 <i style="float: right;" class="fas fa-sort sortbtn"></i></td>
+                    <td>2021-Q3 <i style="float: right;" class="fas fa-sort sortbtn"></i></td>
+                    <td>2021-Q4 <i style="float: right;" class="fas fa-sort sortbtn"></i></td>
+                  </tr>
+                </table>
+              </td>
+             </tr>
+
+             <!--Tables-->
+             <tr style="border-style: none;">
+               <td style="border-style: none; background-color: white;"><i class="fas fa-file-alt file-icon"></i>&nbsp;&nbsp;<i class="fas fa-chart-bar file-icon"></i></td>
+               <td class="border-top border-bottom">
+                Bank 1
+              </td>
+              <td class="border-top border-bottom" style="padding: 0px;">
+                <table class="table table-bordered" style="margin-bottom: 0px;">
+                  <tr>
+                    <td>000,000,00</td>
+                    <td>000,000,00</td>
+                    <td>000,000,00</td>
+                    <td>000,000,00</td>
+                  </tr>
+                </table>
+              </td>
+              <td class="border-top border-bottom" style="padding: 0px;">
+                <table class="table table-bordered" style="margin-bottom: 0px;">
+                  <tr>
+                    <td>000,000,00</td>
+                    <td>000,000,00</td>
+                    <td>000,000,00</td>
+                    <td>000,000,00</td>
+                  </tr>
+                </table>
+              </td>
+              <td class="border-top border-bottom" style="padding: 0px;">
+                <table class="table table-bordered" style="margin-bottom: 0px;">
+                  <tr>
+                    <td>000,000,00</td>
+                    <td>000,000,00</td>
+                    <td>000,000,00</td>
+                    <td>000,000,00</td>
+                  </tr>
+                </table>
+              </td>
+              <td class="border-top border-bottom" style="padding: 0px;">
+                <table class="table table-bordered" style="margin-bottom: 0px;">
+                  <tr>
+                    <td>000,000,00</td>
+                    <td>000,000,00</td>
+                    <td>000,000,00</td>
+                    <td>000,000,00</td>
+                  </tr>
+                </table>
+              </td>
+             </tr>
+
+
+             <tr style="border-style: none;">
+              <td style="border-style: none;"><i class="fas fa-file-alt file-icon"></i>&nbsp;&nbsp;<i class="fas fa-chart-bar file-icon"></i></td>
+              <td class="border-top border-bottom">
+               Bank 2
+             </td>
+             <td class="border-top border-bottom" style="padding: 0px;">
+               <table class="table table-bordered" style="margin-bottom: 0px;">
+                 <tr>
+                   <td>000,000,00</td>
+                   <td>000,000,00</td>
+                   <td>000,000,00</td>
+                   <td>000,000,00</td>
+                 </tr>
+               </table>
+             </td>
+             <td class="border-top border-bottom" style="padding: 0px;">
+               <table class="table table-bordered" style="margin-bottom: 0px;">
+                 <tr>
+                   <td>000,000,00</td>
+                   <td>000,000,00</td>
+                   <td>000,000,00</td>
+                   <td>000,000,00</td>
+                 </tr>
+               </table>
+             </td>
+             <td class="border-top border-bottom" style="padding: 0px;">
+               <table class="table table-bordered" style="margin-bottom: 0px;">
+                 <tr>
+                   <td>000,000,00</td>
+                   <td>000,000,00</td>
+                   <td>000,000,00</td>
+                   <td>000,000,00</td>
+                 </tr>
+               </table>
+             </td>
+             <td class="border-top border-bottom" style="padding: 0px;">
+               <table class="table table-bordered" style="margin-bottom: 0px;">
+                 <tr>
+                   <td>000,000,00</td>
+                   <td>000,000,00</td>
+                   <td>000,000,00</td>
+                   <td>000,000,00</td>
+                 </tr>
+               </table>
+             </td>
+            </tr>
+
+
+            <tr style="border-style: none;">
+              <td style="border-style: none;background-color: white;"><i class="fas fa-file-alt file-icon"></i>&nbsp;&nbsp;<i class="fas fa-chart-bar file-icon"></i></td>
+              <td class="border-top border-bottom">
+               Bank 3
+             </td>
+             <td class="border-top border-bottom" style="padding: 0px;">
+               <table class="table table-bordered" style="margin-bottom: 0px;">
+                 <tr>
+                   <td>000,000,00</td>
+                   <td>000,000,00</td>
+                   <td>000,000,00</td>
+                   <td>000,000,00</td>
+                 </tr>
+               </table>
+             </td>
+             <td class="border-top border-bottom" style="padding: 0px;">
+               <table class="table table-bordered" style="margin-bottom: 0px;">
+                 <tr>
+                   <td>000,000,00</td>
+                   <td>000,000,00</td>
+                   <td>000,000,00</td>
+                   <td>000,000,00</td>
+                 </tr>
+               </table>
+             </td>
+             <td class="border-top border-bottom" style="padding: 0px;">
+               <table class="table table-bordered" style="margin-bottom: 0px;">
+                 <tr>
+                   <td>000,000,00</td>
+                   <td>000,000,00</td>
+                   <td>000,000,00</td>
+                   <td>000,000,00</td>
+                 </tr>
+               </table>
+             </td>
+             <td class="border-top border-bottom" style="padding: 0px;">
+               <table class="table table-bordered" style="margin-bottom: 0px;">
+                 <tr>
+                   <td>000,000,00</td>
+                   <td>000,000,00</td>
+                   <td>000,000,00</td>
+                   <td>000,000,00</td>
+                 </tr>
+               </table>
+             </td>
+            </tr>
+
+            <tr style="border-style: none;">
+              <td style="border-style: none;background-color: white;"><i class="fas fa-file-alt file-icon"></i>&nbsp;&nbsp;<i class="fas fa-chart-bar file-icon"></i></td>
+              <td class="border-top border-bottom">
+               Bank 3
+             </td>
+             <td class="border-top border-bottom" style="padding: 0px;">
+               <table class="table table-bordered" style="margin-bottom: 0px;">
+                 <tr>
+                   <td>000,000,00</td>
+                   <td>000,000,00</td>
+                   <td>000,000,00</td>
+                   <td>000,000,00</td>
+                 </tr>
+               </table>
+             </td>
+             <td class="border-top border-bottom" style="padding: 0px;">
+               <table class="table table-bordered" style="margin-bottom: 0px;">
+                 <tr>
+                   <td>000,000,00</td>
+                   <td>000,000,00</td>
+                   <td>000,000,00</td>
+                   <td>000,000,00</td>
+                 </tr>
+               </table>
+             </td>
+             <td class="border-top border-bottom" style="padding: 0px;">
+               <table class="table table-bordered" style="margin-bottom: 0px;">
+                 <tr>
+                   <td>000,000,00</td>
+                   <td>000,000,00</td>
+                   <td>000,000,00</td>
+                   <td>000,000,00</td>
+                 </tr>
+               </table>
+             </td>
+             <td class="border-top border-bottom" style="padding: 0px;">
+               <table class="table table-bordered" style="margin-bottom: 0px;">
+                 <tr>
+                   <td>000,000,00</td>
+                   <td>000,000,00</td>
+                   <td>000,000,00</td>
+                   <td>000,000,00</td>
+                 </tr>
+               </table>
+             </td>
+            </tr>
+
+           </table>
+
+        </div>
+         
+      </div>
+      <button class="btn loadmorebtn">Load More Banks</button>
+  </section>
+
+
+
+  <script>
+        var trace1 = {
+        y: [20],
+        width: [0.15],
+        name : "2021-Q1",
+        marker:{
+            color: ['rgb(240, 232, 5)']
+        },
+        type: 'bar',
+        };
+
+        var trace2 = {
+        y: [14],
+        width: [0.15],
+        name : "2021-Q2",
+        marker:{
+            color: ['rgb(24, 106, 214)']
+        },
+        type: 'bar',
+        };
+
+        var trace3 = {
+        y: [23],
+        width: [0.15],
+        name : "2021-Q3",
+        marker:{
+            color: ['rgb(12, 179, 84)']
+        },
+        type: 'bar',
+        };
+
+        var trace4 = {
+        y: [25],
+        width: [0.15],
+        name : "2021-Q4",
+        marker:{
+            color: ['rgb(230, 9, 61)']
+        },
+        type: 'bar',
+        };
+
+        var data = [trace1,trace2,trace3,trace4];
+
+
+        var layout = {
+            barmode: 'group',
+            title: 'Graph title'
+        };
+
+        Plotly.newPlot('graph1', data, layout);
+        Plotly.newPlot('graph2', data, layout);
+        Plotly.newPlot('graph3', data, layout);
+        Plotly.newPlot('graph4', data, layout);
+
+        Plotly.newPlot('graph5', data, layout);
+        Plotly.newPlot('graph6', data, layout);
+        Plotly.newPlot('graph7', data, layout);
+        Plotly.newPlot('graph8', data, layout);
+
+  </script>
+{% endblock %}

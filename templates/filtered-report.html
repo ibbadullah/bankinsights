@@ -1,0 +1,329 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load filters %}
+{% block title %}Bank Report{% endblock %}
+{% block scripts %}
+    <script src="{% static 'graphics-lib.js' %}"></script>
+{% endblock %}
+{% block styles %}
+  <style>
+     @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@500&display=swap');
+
+        .header-section h2{
+          float: left;
+          font-size: 25px !important;
+          margin: 30px 0px 0px 30px
+        
+        }
+        .header-section h3{
+          font-size: 18px!important;
+          
+        }
+        .header-section h4{
+          font-size: 16px!important;
+        }
+        
+        .btn:hover{
+          color: white !important;
+          opacity: 0.8 !important;
+        }
+        .bank-details-wrapper{
+            border: 1px solid #3C3B6E;
+            border-radius: 5px;
+            width: 95%;
+            margin-left: 2.5% !important;
+        }
+        .graphs-section{
+          margin-top: 50px;
+        }
+        .graphs-wrapper{
+          overflow-x: auto;
+          overflow-y: auto;
+          max-width: 100%;
+        }
+        .tables-section{
+          margin-top: 50px;
+          position: relative;
+        }
+        .tables-wrapper{
+          overflow-x: auto;
+          overflow-y: auto;
+          max-width: 100%;
+          position: relative;
+        }
+        .file-icon:hover{
+          opacity: 0.7;
+          cursor: pointer;
+        }
+        .filterbtn{
+            margin-top: 2px;
+        }
+        .sortbtn:hover{
+          cursor: pointer;
+        }
+        .data-gripitem{
+          padding: 3px !important;
+          margin: 0px !important;
+          border-style: none;
+          font-size: 13px;
+          max-width: 150px !important;
+          white-space: nowrap;
+          overflow: hidden;
+          height: 13px;
+          text-overflow: ellipsis;
+      }
+        .bankNames{
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          cursor: pointer;
+          width: 100%;
+      }
+        .loadmorebtn{
+          background-color: white !important;
+          color: #3C3B6E !important;
+          border: 1px solid #3C3B6E !important;
+          border-radius: 35px !important;
+          margin-top: 10px;
+          margin-bottom: 30px;
+          margin-left: 20px;
+          font-size: 14px !important;
+
+        }
+        .loadmorebtn:hover{
+          background-color: #3C3B6E !important;
+          color: white !important;
+        }
+        .table-label-wrapper{
+          left: -18px;
+          transform: rotate(-90deg);
+          font-size: 13px !important;
+          margin-top: 25px;
+          position: absolute;
+        }
+        .table-label-wrapper p{
+          margin: 2px;
+          padding: 0px;
+        }
+        .btn-primary{
+            color: white !important;
+            background-color: #00B050 !important;
+            border-color: #00B050 !important;
+        }
+        .btn-primary:hover{
+            opacity: 0.8;
+        }
+        #selected-filter{
+            color: #00B050 !important;
+        }
+        /*Height for the data items*/
+        .table-td-headings{
+          width:250px;
+          height:297px;
+        }
+        .pg-link{
+            text-decoration: none;
+            color: #535659;
+        }
+        .pg-link:hover{
+            text-decoration: none;
+            color: #535659;
+        }
+        table a{
+            text-decoration: none;
+            color: #535659;
+        }
+        .modalbanknames a{
+            text-decoration: none;
+            color: black;
+            display: block;
+            margin: 5px;
+        }
+        .xtick{
+            display: none !important;
+        }
+        .graphs-wrapper .table-bordered{
+            border: 2px solid black !important;
+        }
+        .myGborder{
+            border: 2px solid black !important;
+        }
+        .reportNumbers{
+            text-align: right !important;
+        }
+        .tablefilterwidth{
+            width: 80px;
+        }
+        .ease-bg{
+            display: none !important;
+        }
+        td table tr td p{
+            margin-bottom: 0px !important;
+        }
+        .myGborder p{
+            margin-bottom: 0px !important;
+        }
+        /* targeting mobile screens */
+        @media only screen and (max-width:480px){
+          body{
+            background-color: white;
+          }
+          .table-label-wrapper{
+            left: -30px;
+          }
+          .header-section{
+            border-radius: 0px;
+            box-shadow: none;
+            margin-top: 45px;
+          }
+          
+        }
+  </style>
+{% endblock %}
+{% block content %}
+
+  <!--Header section-->
+  <section class="header-section container animate__animated animate__fadeInUp">
+      <div class="row">
+          <div class="col-md-6">
+            <h2>Bank Report Parameters</h2>
+          </div>
+          <div class="col-md-6">
+            <a class="btn btn-primary" href="{% url 'Home' %}" style="float: right; margin: 30px 30px 0px 0px">Change Report Parameters</a>
+          </div>
+      </div><br>
+      <!--Bank details-->
+      <div class="row bank-details-wrapper">
+          <div class="col-md-1 mt-2">
+              <h4>Bank</h4>
+          </div>
+          <div class="col-md-11 mt-2">
+              <h4>{{ RequiredItems.SelectedBanksL }}</h4>
+        </div>
+        <div class="col-md-1 mt-4">
+            <h4>Period</h4>
+        </div>
+        <div class="col-md-11 mt-4">
+            <h4>{{ RequiredItems.SelectedPeriodL }}</h4>
+       </div>
+       <div class="col-md-1 mt-4">
+            <h4>Data</h4>
+        </div>
+        <div class="col-md-11 mt-4">
+            <h4>
+                {% for d in Data.ColumnHeadings %}
+                    {{ d.row_heading }}<br>
+                {% endfor %}
+            </h4>
+        </div>
+      
+      </div>
+
+       <!--Graphs-->
+       <div class="graphs-section">
+         <div class="graphs-wrapper">
+             <h2 style="margin-left: 5px;float: none;text-align: left">Average of Banks Selected</h2>
+             <h5 style="margin-left: 5px;float: none;text-align: left">({{ Data.TotalUniqueBanks }} unique banks)</h5>
+             <!-- Including table based on the selected columns-->
+            {% if request.GET.count == "1" %}
+                {% include 'graphs/graph1.html' %}
+            {% elif request.GET.count == "2" %}
+                {% include 'graphs/graph2.html' %}
+            {% elif request.GET.count == "3" %}
+                {% include 'graphs/graph3.html' %}
+            {% elif request.GET.count == "4" %}
+                {% include 'graphs/graph4.html' %}
+            {% elif request.GET.count == "5" %}
+                {% include 'graphs/graph5.html' %}
+            {% elif request.GET.count == "6" %}
+                {% include 'graphs/graph6.html' %}
+            {% endif %}
+         </div>
+          
+       </div>
+      <br>
+      <h2 style="margin-left: 0px;margin-bottom: 10px">Selected Bank Data</h2><br>
+       <!--Hiding filters load buttons-->
+      {% if Data.BankNamesColumn.count == 1 %}
+          <style>
+              .fa-sort{
+                  display: none;
+              }
+              .fa-filter{
+                  display: none;
+              }
+              .loadmorebtn{
+                  display: none;
+              }
+          </style>
+      {% elif Data.BankNamesColumn.count < 30 %}
+        <style>
+              .loadmorebtn{
+                  display: none;
+              }
+          </style>
+      {% endif %}
+
+       <!-- Hiding other columns if no data was found -->
+      {% if Data.BankNamesColumn.count == 0 %}
+            <style>
+                .tables-section{
+                    display: none;
+                }
+            </style>
+            <p style="color: orangered;margin: 10px 0px 50px 10px;font-size: 24px;text-align: center">No data was found.</p>
+            <br>
+        {% endif %}
+
+
+       <!--Tables-->
+      {% if request.GET.bnsort != '' or request.GET.sort != '' or request.GET.range != '' %}
+            <a href="{% url 'FilterReportView' %}?req=clearfilters&f1={{ Data.F1 }}&f2={{ Data.F2 }}&bnsort=&lableslist={{ request.GET.lableslist }}&columns={{ request.GET.columns }}&count={{ request.GET.count }}&periods={{ request.GET.periods }}&sort=&bank={{ request.GET.bank }}&speriod={{ request.GET.speriod }}&slabel={{ request.GET.slabel }}&bstates={{ request.GET.bstates }}&blocation={{ request.GET.blocation }}&m={{ request.GET.m }}&pgroup={{ request.GET.pgroup }}&rid={{ request.GET.rid }}&r1=&r2=&range=&sortslist=,&rangeslist=," class="btn btn-primary actionbtn" style="float: right;margin-top: 30px;">Clear Filters&nbsp;<i class="fas fa-times"></i></a><br>
+      {% endif %}
+       <div class="tables-section">
+        <div class="tables-wrapper">
+          <div class="table-label-wrapper">
+            <p>Full Bank Report</p>
+            <p>Graph Bank Data</p>
+          </div>
+
+            <!-- Including table based on the selected columns-->
+            {% if request.GET.count == "1" %}
+                {% include 'filters-tables/table1.html' %}
+            {% elif request.GET.count == "2" %}
+                {% include 'filters-tables/table2.html' %}
+            {% elif request.GET.count == "3" %}
+                {% include 'filters-tables/table3.html' %}
+            {% elif request.GET.count == "4" %}
+                {% include 'filters-tables/table4.html' %}
+            {% elif request.GET.count == "5" %}
+                {% include 'filters-tables/table5.html' %}
+            {% elif request.GET.count == "6" %}
+                {% include 'filters-tables/table6.html' %}
+            {% endif %}
+
+        </div>
+         
+      </div>
+
+      <a href="{% url 'FilterReportView' %}?req=loadmore&f1={{ Data.F1 }}&f2={{ Data.F2 }}&bnsort={{ request.GET.bnsort }}&lableslist={{ request.GET.lableslist }}&columns={{ request.GET.columns }}&count={{ request.GET.count }}&periods={{ request.GET.periods }}&sort={{ request.GET.sort }}&bank={{ request.GET.bank }}&speriod={{ request.GET.speriod }}&slabel={{ request.GET.slabel }}&bstates={{ request.GET.bstates }}&blocation={{ request.GET.blocation }}&m={{ request.GET.m }}&pgroup={{ request.GET.pgroup }}&rid={{ request.GET.rid }}&r1={{ request.GET.r1 }}&r2={{ request.GET.r2 }}&range={{ request.GET.range }}&sortslist={{ request.GET.sortslist }}&rangeslist={{ request.GET.rangeslist }}" class="btn loadmorebtn actionbtn">Load More Banks</a>
+
+  </section>
+    <script>
+        // Adding scroll top
+        $(document).ready(function () {
+           $(window).scrollTop(940);
+           //$('.ease-bg').html('');
+        });
+    </script>
+    <!-- Including Filters modals -->
+    {% include 'modals/filter-modals.html' %}
+    {% include 'filters-tables/styles.html' %}
+
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
+    <script type="text/javascript">
+        $(function(){
+           $('[data-bs-toggle="tooltip"]').tooltip();
+        });
+    </script>
+{% endblock %}

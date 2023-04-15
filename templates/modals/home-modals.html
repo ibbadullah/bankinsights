@@ -1,0 +1,72 @@
+{% load static %}
+<!-- Modal for maximum data items -->
+<div class="modal fade" id="maximumdatamodal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="maximumdatamodalhmodalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body" style="margin-bottom: 20px">
+          <p>A maximum of 6 data items can be selected.</p>
+      </div>
+       <div class="modal-footer">
+           <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Ok</button>
+       </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- Modal for validation -->
+<div class="modal fade" id="validationmodal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="validationmodalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body" style="margin-bottom: 20px">
+          <p>At least one data item must be selected.</p>
+      </div>
+       <div class="modal-footer">
+           <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Ok</button>
+       </div>
+    </div>
+  </div>
+</div>
+
+
+
+<div class="openMaximumDataModal" data-bs-toggle="modal" data-bs-target="#maximumdatamodal"></div>
+<div class="openValidationModal" data-bs-toggle="modal" data-bs-target="#validationmodal"></div>
+
+
+{% for message in messages %}
+    {% if message %}
+        <!-- Modal for bad location -->
+        <div class="modal fade" id="badlocationmodal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="badlocationmodalLabel" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body" style="margin-bottom: 20px">
+                  <p>
+                      {% for message in messages %}
+                        {{ message }}
+                      {% endfor %}
+                  </p>
+              </div>
+               <div class="modal-footer">
+                   <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Ok</button>
+               </div>
+            </div>
+          </div>
+        </div>
+    {% endif %}
+{% endfor %}
+
+<script type="text/javascript">
+    $(window).on('load', function() {
+        $('#badlocationmodal').modal('show');
+    });
+</script>

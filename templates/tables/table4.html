@@ -1,0 +1,204 @@
+{% load filters %}
+{% load l10n %}
+{% load humanize %}
+
+<!--Displaying all the heading titles dynamically-->
+<table class="table table-bordered">
+    <!--Headings-->
+    <tr style="border-top: none;border-bottom: none">
+        <!--Empty and bank name heading td-->
+        <td style="border-style: none"></td>
+        <td colspan="3" style="border-style: none">
+        </td>
+        <!--Column headings td. New td can be added for more columns below but loop does the job-->
+        {% for columnHeading in Data.ColumnHeadings %}
+            <td colspan="4" style="border: 1px solid gainsboro;font-size: 15px">
+                <table>
+                    <tr><td>{{ columnHeading.column_heading|linebreaks }}</td></tr>
+                </table>
+            </td>
+        {% endfor %}
+    </tr>
+
+    <!--Label column for bank name and empty for pdf and report button -->
+    <tr style="border-top: none; font-size: 13px">
+        <td style="border-style: none">
+        </td>
+        <td colspan="3" style="border: 1px solid gainsboro">
+            <div style="width: 100%;border: 1px solid gainsboro;border-radius: 5px;padding: 5px;height: 30px;"><div type="button" style="float:left;cursor: pointer;width: 70%" data-bs-toggle="modal" data-bs-target="#banksearchmodal">Bank</div> <a href="{% url 'FilterReportView' %}?req=bnamesort&bnsort=yes&f1=0&f2={% if Data.TotalItems > 30 %}30{% else %}{{ Data.TotalItems }}{% endif %}&lableslist={{ RequiredItems.FPeriodsLables }}&columns={{ Data.ColumnNames }}&count={{ RequiredItems.DataCount }}&periods={{ Data.PeriodsList }}&sort=&bank={{ RequiredItems.Banks }}&speriod={{ RequiredItems.PeriodSelection }}&slabel={{ RequiredItems.SinglePeriodLabel }}&bstates={{ RequiredItems.BranchesStateValue }}&blocation={{ RequiredItems.BLocation }}&m={{ RequiredItems.Milesdistance }}&pgroup={{ RequiredItems.PGroup }}&rid={{ RequiredItems.RID }}&r1=&r2=&range=&sortslist={{ request.GET.sort }},{{ request.GET.sortslist }}&rangeslist={{ request.GET.range }},{{ request.GET.rangeslist }}"><i style="float: right;" class="fas fa-sort sortbtn actionbtn"></i></a></div>
+        </td>
+
+        <!--Periods labels column group new can be vai td-->
+        {% for l in RequiredItems.PeriodLables %}
+            <td>
+                <div class="tablefilterwidth"></div>
+                {{ l }} <a class="actionbtn" href="{% url 'FilterReportView' %}?req=sort&f1=0&f2={% if Data.TotalItems > 30 %}30{% else %}{{ Data.TotalItems }}{% endif %}&lableslist={{ RequiredItems.FPeriodsLables }}&columns={{ Data.ColumnNames }}&count={{ RequiredItems.DataCount }}&bnsort=&periods={{ Data.PeriodsList }}&sort=1{{ forloop.counter }}&bank={{ RequiredItems.Banks }}&speriod={{ RequiredItems.PeriodSelection }}&slabel={{ RequiredItems.SinglePeriodLabel }}&bstates={{ RequiredItems.BranchesStateValue }}&blocation={{ RequiredItems.BLocation }}&m={{ RequiredItems.Milesdistance }}&pgroup={{ RequiredItems.PGroup }}&rid={{ RequiredItems.RID }}&r1=&r2=&range=&sortslist={{ request.GET.sort }},{{ request.GET.sortslist }}&rangeslist={{ request.GET.range }},{{ request.GET.rangeslist }}"><i style="float: right;" class="fas fa-sort sortbtn"></i></a> <i onclick="storeFilterNum('1{{ forloop.counter }}')" data-bs-toggle="modal" data-bs-target="#rangemodal" style="float: right; font-size: 9px;margin-right: 5px" class="fas fa-filter filterbtn sortbtn"></i>
+            </td>
+        {% endfor %}
+        {% for l in RequiredItems.PeriodLables %}
+            <td>
+                <div class="tablefilterwidth"></div>
+                {{ l }} <a class="actionbtn" href="{% url 'FilterReportView' %}?req=sort&f1=0&f2={% if Data.TotalItems > 30 %}30{% else %}{{ Data.TotalItems }}{% endif %}&lableslist={{ RequiredItems.FPeriodsLables }}&columns={{ Data.ColumnNames }}&count={{ RequiredItems.DataCount }}&bnsort=&periods={{ Data.PeriodsList }}&sort=2{{ forloop.counter }}&bank={{ RequiredItems.Banks }}&speriod={{ RequiredItems.PeriodSelection }}&slabel={{ RequiredItems.SinglePeriodLabel }}&bstates={{ RequiredItems.BranchesStateValue }}&blocation={{ RequiredItems.BLocation }}&m={{ RequiredItems.Milesdistance }}&pgroup={{ RequiredItems.PGroup }}&rid={{ RequiredItems.RID }}&r1=&r2=&range=&sortslist={{ request.GET.sort }},{{ request.GET.sortslist }}&rangeslist={{ request.GET.range }},{{ request.GET.rangeslist }}"><i style="float: right;" class="fas fa-sort sortbtn"></i></a> <i onclick="storeFilterNum('2{{ forloop.counter }}')" data-bs-toggle="modal" data-bs-target="#rangemodal" style="float: right; font-size: 9px;margin-right: 5px" class="fas fa-filter filterbtn sortbtn"></i>
+            </td>
+        {% endfor %}
+        {% for l in RequiredItems.PeriodLables %}
+            <td>
+                <div class="tablefilterwidth"></div>
+                {{ l }} <a class="actionbtn" href="{% url 'FilterReportView' %}?req=sort&f1=0&f2={% if Data.TotalItems > 30 %}30{% else %}{{ Data.TotalItems }}{% endif %}&lableslist={{ RequiredItems.FPeriodsLables }}&columns={{ Data.ColumnNames }}&count={{ RequiredItems.DataCount }}&bnsort=&periods={{ Data.PeriodsList }}&sort=3{{ forloop.counter }}&bank={{ RequiredItems.Banks }}&speriod={{ RequiredItems.PeriodSelection }}&slabel={{ RequiredItems.SinglePeriodLabel }}&bstates={{ RequiredItems.BranchesStateValue }}&blocation={{ RequiredItems.BLocation }}&m={{ RequiredItems.Milesdistance }}&pgroup={{ RequiredItems.PGroup }}&rid={{ RequiredItems.RID }}&r1=&r2=&range=&sortslist={{ request.GET.sort }},{{ request.GET.sortslist }}&rangeslist={{ request.GET.range }},{{ request.GET.rangeslist }}"><i style="float: right;" class="fas fa-sort sortbtn"></i></a> <i onclick="storeFilterNum('3{{ forloop.counter }}')" data-bs-toggle="modal" data-bs-target="#rangemodal" style="float: right; font-size: 9px;margin-right: 5px" class="fas fa-filter filterbtn sortbtn"></i>
+            </td>
+        {% endfor %}
+        {% for l in RequiredItems.PeriodLables %}
+            <td>
+                <div class="tablefilterwidth"></div>
+                {{ l }} <a class="actionbtn" href="{% url 'FilterReportView' %}?req=sort&f1=0&f2={% if Data.TotalItems > 30 %}30{% else %}{{ Data.TotalItems }}{% endif %}&lableslist={{ RequiredItems.FPeriodsLables }}&columns={{ Data.ColumnNames }}&count={{ RequiredItems.DataCount }}&bnsort=&periods={{ Data.PeriodsList }}&sort=4{{ forloop.counter }}&bank={{ RequiredItems.Banks }}&speriod={{ RequiredItems.PeriodSelection }}&slabel={{ RequiredItems.SinglePeriodLabel }}&bstates={{ RequiredItems.BranchesStateValue }}&blocation={{ RequiredItems.BLocation }}&m={{ RequiredItems.Milesdistance }}&pgroup={{ RequiredItems.PGroup }}&rid={{ RequiredItems.RID }}&r1=&r2=&range=&sortslist={{ request.GET.sort }},{{ request.GET.sortslist }}&rangeslist={{ request.GET.range }},{{ request.GET.rangeslist }}"><i style="float: right;" class="fas fa-sort sortbtn"></i></a> <i onclick="storeFilterNum('4{{ forloop.counter }}')" data-bs-toggle="modal" data-bs-target="#rangemodal" style="float: right; font-size: 9px;margin-right: 5px" class="fas fa-filter filterbtn sortbtn"></i>
+            </td>
+        {% endfor %}
+    </tr>
+
+
+    <!--Data items-->
+    <tr>
+        <!--Graph and pdf btn column-->
+        <td>
+            <table class="table table-striped">
+                {% for d in Data.BankNamesColumn %}
+                    <tr><td class="data-gripitem">
+                        <a target="_blank" class="pg-link" href="{% url 'PDFReportView' %}?id={{ d.0 }}&period={{ Data.PeriodsList }}&labels={{ RequiredItems.FPeriodsLables }}"><i class="fas fa-file-alt file-icon"></i></a>&nbsp;&nbsp;<a target="_blank" class="pg-link" href="{% url 'SingleBankGraph' %}?count={{ RequiredItems.DataCount }}&id={{ d.0 }}&periods={{ Data.PeriodsList|unlocalize }}&columns={{ Data.ColumnNames|unlocalize }}&labels={{ RequiredItems.PeriodLables }}"><i class="fas fa-chart-bar file-icon"></i></a>
+                    </td></tr>
+                {% endfor %}
+            </table>
+        </td>
+       <!--Bank names column-->
+        <td colspan="3">
+            <table class="table table-striped">
+                {% for d in Data.BankNamesColumn %}
+                    <tr><td class="data-gripitem">
+                        <div class="bankNames" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{ request|getBankName:d.0 }}">{{ request|getBankName:d.0 }}</div>
+                    </td></tr>
+                {% endfor %}
+            </table>
+        </td>
+
+
+        <!--Period Group column 1. New can be added-->
+        <td>
+            <table class="table table-striped">
+                {% for d in Data.Period1 %}
+                    <tr><td class="data-gripitem reportNumbers">{% if d == None %}NR{% else %}{{ d|intcomma }}{% endif %}</td></tr>
+                {% endfor %}
+            </table>
+        </td>
+        <td>
+            <table class="table table-striped">
+                {% for d in Data.Period2 %}
+                    <tr><td class="data-gripitem reportNumbers">{% if d == None %}NR{% else %}{{ d|intcomma }}{% endif %}</td></tr>
+                {% endfor %}
+            </table>
+        </td>
+        <td>
+            <table class="table table-striped">
+                {% for d in Data.Period3 %}
+                    <tr><td class="data-gripitem reportNumbers">{% if d == None %}NR{% else %}{{ d|intcomma }}{% endif %}</td></tr>
+                {% endfor %}
+            </table>
+        </td>
+        <td>
+            <table class="table table-striped">
+                {% for d in Data.Period4 %}
+                    <tr><td class="data-gripitem reportNumbers">{% if d == None %}NR{% else %}{{ d|intcomma }}{% endif %}</td></tr>
+                {% endfor %}
+            </table>
+        </td>
+
+        <!--Period Group column 2. New can be added-->
+        <td>
+            <table class="table table-striped">
+                {% for d in Data.Period5 %}
+                    <tr><td class="data-gripitem reportNumbers">{% if d == None %}NR{% else %}{{ d|intcomma }}{% endif %}</td></tr>
+                {% endfor %}
+            </table>
+        </td>
+        <td>
+            <table class="table table-striped">
+                {% for d in Data.Period6 %}
+                    <tr><td class="data-gripitem reportNumbers">{% if d == None %}NR{% else %}{{ d|intcomma }}{% endif %}</td></tr>
+                {% endfor %}
+            </table>
+        </td>
+        <td>
+            <table class="table table-striped">
+                {% for d in Data.Period7 %}
+                    <tr><td class="data-gripitem reportNumbers">{% if d == None %}NR{% else %}{{ d|intcomma }}{% endif %}</td></tr>
+                {% endfor %}
+            </table>
+        </td>
+        <td>
+            <table class="table table-striped">
+                {% for d in Data.Period8 %}
+                    <tr><td class="data-gripitem reportNumbers">{% if d == None %}NR{% else %}{{ d|intcomma }}{% endif %}</td></tr>
+                {% endfor %}
+            </table>
+        </td>
+
+        <!--Period Group column 3. New can be added-->
+        <td>
+            <table class="table table-striped">
+                {% for d in Data.Period9 %}
+                    <tr><td class="data-gripitem reportNumbers">{% if d == None %}NR{% else %}{{ d|intcomma }}{% endif %}</td></tr>
+                {% endfor %}
+            </table>
+        </td>
+        <td>
+            <table class="table table-striped">
+                {% for d in Data.Period10 %}
+                    <tr><td class="data-gripitem reportNumbers">{% if d == None %}NR{% else %}{{ d|intcomma }}{% endif %}</td></tr>
+                {% endfor %}
+            </table>
+        </td>
+        <td>
+            <table class="table table-striped">
+                {% for d in Data.Period11 %}
+                    <tr><td class="data-gripitem reportNumbers">{% if d == None %}NR{% else %}{{ d|intcomma }}{% endif %}</td></tr>
+                {% endfor %}
+            </table>
+        </td>
+        <td>
+            <table class="table table-striped">
+                {% for d in Data.Period12 %}
+                    <tr><td class="data-gripitem reportNumbers">{% if d == None %}NR{% else %}{{ d|intcomma }}{% endif %}</td></tr>
+                {% endfor %}
+            </table>
+        </td>
+
+        <!--Period Group column 4. New can be added-->
+        <td>
+            <table class="table table-striped">
+                {% for d in Data.Period13 %}
+                    <tr><td class="data-gripitem reportNumbers">{% if d == None %}NR{% else %}{{ d|intcomma }}{% endif %}</td></tr>
+                {% endfor %}
+            </table>
+        </td>
+        <td>
+            <table class="table table-striped">
+                {% for d in Data.Period14 %}
+                    <tr><td class="data-gripitem reportNumbers">{% if d == None %}NR{% else %}{{ d|intcomma }}{% endif %}</td></tr>
+                {% endfor %}
+            </table>
+        </td>
+        <td>
+            <table class="table table-striped">
+                {% for d in Data.Period15 %}
+                    <tr><td class="data-gripitem reportNumbers">{% if d == None %}NR{% else %}{{ d|intcomma }}{% endif %}</td></tr>
+                {% endfor %}
+            </table>
+        </td>
+        <td>
+            <table class="table table-striped">
+                {% for d in Data.Period16 %}
+                    <tr><td class="data-gripitem reportNumbers">{% if d == None %}NR{% else %}{{ d|intcomma }}{% endif %}</td></tr>
+                {% endfor %}
+            </table>
+        </td>
+
+    </tr>
+</table>

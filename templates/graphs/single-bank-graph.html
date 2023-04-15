@@ -1,0 +1,360 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load filters %}
+{% block title %}Bank Graphs{% endblock %}
+{% block scripts %}
+    <script src="{% static 'graphics-lib.js' %}"></script>
+    <script src="{% static 'html2pdf.js' %}"></script>
+{% endblock %}
+
+{% block styles %}
+  <style>
+     @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@500&display=swap');
+        body{
+            position: relative;
+        }
+        .header-section{
+          background-color: white;
+          border-radius: 10px;
+          margin-top: 130px;
+          margin-bottom: 70px;
+          padding: 0px !important;
+        }
+        .container{
+            padding: 0px !important;
+        }
+        .downloadbtntop{
+            position: fixed;
+            top: 130px;
+            right: 20px;
+        }
+        .header-section h2{
+          float: left;
+          font-size: 25px !important;
+          margin: 30px 0px 0px 30px
+        }
+        .header-section h3{
+          font-size: 18px!important;
+
+        }
+        .header-section h4{
+          font-size: 16px!important;
+        }
+        .logo-wraper{
+            text-align: center;
+        }
+        .logo-wraper img{
+            width: auto;
+            margin-top: 30px;
+            height: 50px;
+        }
+        .documenttitle{
+            background-color: #00B050;
+            width: 100%;
+            margin-top: 20px;
+        }
+        .documenttitle h3{
+            color: white;
+            font-size: 16px !important;
+            padding: 5px;
+            margin-left: 20px;
+
+        }
+
+        .btn:hover{
+          color: white !important;
+          opacity: 0.8 !important;
+        }
+        .bank-details-wrapper{
+            border: 1px solid #3C3B6E;
+            border-radius: 5px;
+            width: 95%;
+            margin-left: 2.5% !important;
+        }
+        .graphs-section{
+          margin-top: 0px;
+        }
+        .graphs-wrapper{
+          overflow-x: auto;
+          overflow-y: auto;
+          max-width: 100%;
+        }
+        .tables-section{
+          margin-top: 0px;
+          position: relative;
+        }
+        .tables-wrapper{
+          overflow-x: auto;
+          overflow-y: auto;
+          max-width: 100%;
+          position: relative;
+        }
+        .file-icon:hover{
+          opacity: 0.7;
+          cursor: pointer;
+        }
+        .filterbtn{
+            margin-top: 2px;
+        }
+        .sortbtn:hover{
+          cursor: pointer;
+        }
+        .data-gripitem{
+          padding: 3px !important;
+          margin: 0px !important;
+          border-style: none;
+          font-size: 13px;
+          max-width: 150px !important;
+          white-space: nowrap;
+          overflow: hidden;
+          height: 13px;
+          text-overflow: ellipsis;
+      }
+        .loadmorebtn{
+          background-color: white !important;
+          color: #3C3B6E !important;
+          border: 1px solid #3C3B6E !important;
+          border-radius: 35px !important;
+          margin-top: 10px;
+          margin-bottom: 30px;
+          margin-left: 20px;
+          font-size: 14px !important;
+
+        }
+        .loadmorebtn:hover{
+          background-color: #3C3B6E !important;
+          color: white !important;
+        }
+        .table-label-wrapper{
+          left: -18px;
+          transform: rotate(-90deg);
+          font-size: 13px !important;
+          margin-top: 25px;
+          position: absolute;
+        }
+        .table-label-wrapper p{
+          margin: 2px;
+          padding: 0px;
+        }
+
+        /*Height for the data items*/
+        .table-td-headings{
+          width:250px;
+          height:297px;
+        }
+        .bank-name{
+            margin-top: 30px;
+            margin-left: 15px;
+            font-size: 17px;
+        }
+        .bank-details{
+            margin-top: 10px;
+            margin-left: 15px;
+            font-size: 15px;
+        }
+        .bank-branches-title{
+            margin-top: 30px;
+            margin-left: 15px;
+            font-size: 16px;
+            text-decoration: underline;
+        }
+         .btn-primary{
+            color: white !important;
+            background-color: #00B050 !important;
+            border-color: #00B050 !important;
+        }
+         .xtick{
+            display: none !important;
+        }
+        .graphs-wrapper .table-bordered{
+            border: 2px solid black !important;
+        }
+        .myGborder{
+            border: 2px solid black !important;
+        }
+        #branchComma1{
+            display: none;
+        }
+        .branchCommas{
+            float: left;
+            margin-left: 0px;
+            display: inline-block;
+        }
+        .branchesAddress{
+            float: left;
+            margin-left: 0px;
+        }
+        .hide{
+            display: none;
+        }
+        .show{
+            display: block;
+        }
+        .downloaderGif {
+            width: 100%;
+            height: 100vh;
+            position: fixed;
+            top: 0px;
+            z-index: 15500;
+            background-color: #F7F7F7;
+            text-align: center;
+        }
+        .table2{
+            margin-top: 0px !important;
+        }
+        .table3{
+            margin-top: 50px !important;
+        }
+        .footerSpace{
+            display: none;
+        }
+        /* targeting mobile screens */
+        @media only screen and (max-width:480px){
+          body{
+            background-color: white;
+          }
+          .table-label-wrapper{
+            left: -30px;
+          }
+          .header-section{
+            border-radius: 0px;
+            box-shadow: none;
+            margin-top: 45px;
+              width: 100% !important;
+              overflow-x: auto;
+            overflow-y: auto;
+          }
+          .pdf-wrapper{
+              width: 100% !important;
+              overflow-x: auto;
+           overflow-y: auto;
+          }
+          #reportDiv{
+              width: 98% !important;
+          }
+        }
+
+  </style>
+{% endblock %}
+{% block content %}
+    <div class="downloaderGif hide">
+        <img style="margin-top: 50px" src="{% static 'images/downloadgif.gif' %}" alt="Download gif">
+    </div>
+   <!--
+    <a target="_blank" id="downloadBtn" href="{% url 'PDFReportView' %}?id={{ request.GET.id }}&period={{ request.GET.periods }}&labels={{ Data.ReportLabels }}" class="btn btn-primary downloadbtntop">Download PDF &nbsp;&nbsp;<i class="fa fa-download"></i></a>
+    -->
+    <button id="downloadBtn" class="btn btn-primary downloadbtntop">Download PDF &nbsp;&nbsp;<i class="fa fa-download"></i></button>
+
+  <!--Header section-->
+  <section class="header-section container animate__animated animate__fadeInUp pdf-container" id="reportDiv" style="width: 70%;">
+      <div class="pdf-wrapper" id="pdf-wrapper">
+      <div class="row" style="width: 100%; padding: 0px !important;margin: 0px!important;">
+          <div class="col-md-12" style="width: 100%; padding: 0px !important;margin: 0px!important;">
+            <!--Logo-->
+            <div class="logo-wraper">
+                <img src="{% static 'images/logo.png' %}" alt="logo">
+            </div>
+            <div class="documenttitle">
+                <h3>Bank Graphs</h3>
+            </div>
+            <h6 class="bank-name">{{ BankDetails.bank }}</h6>
+            <p class="bank-details">
+                {{ BankDetails.address }}<br>
+                {{ BankDetails.city }}, {{ BankDetails.state }} {{ BankDetails.zip }}<br>
+                RSSD ID: {{ BankDetails.rssd_id }}<br>
+                Peer Group #{{ BankDetails.peer_group }} - {{ Data.PeerGroupLabel }}
+            </p>
+            <h6 class="bank-branches-title">States with Bank Branches</h6>
+              <p class="bank-details" style="margin-top: 10px;height: 100px;margin-bottom: 1px !important;">
+                  {% if BranchQuery.count == 0 %}
+                    {{ Data.BranchState.label }}
+                  {% else %}
+                      {% for d in BranchQuery %}
+                        <span id="branchComma{{ forloop.counter }}" class="branchCommas">,</span><span class="branchesAddress">&nbsp;{{ d.label }}</span>
+                      {% endfor %}
+                  {% endif %}
+              </p>
+          </div>
+      </div>
+
+
+       <!--Graphs-->
+       <div class="graphs-section" style="padding: 10px 15px 50px 15px;margin-top: 10px">
+         <div class="graphs-wrapper">
+             <!-- Including table based on the selected columns-->
+            {% if request.GET.count == "1" %}
+                {% include 'graphs/single-bank-graphs/graph1.html' %}
+            {% elif request.GET.count == "2" %}
+                {% include 'graphs/single-bank-graphs/graph2.html' %}
+            {% elif request.GET.count == "3" %}
+                {% include 'graphs/single-bank-graphs/graph3.html' %}
+            {% elif request.GET.count == "4" %}
+                {% include 'graphs/single-bank-graphs/graph4.html' %}
+            {% elif request.GET.count == "5" %}
+                {% include 'graphs/single-bank-graphs/graph5.html' %}
+            {% elif request.GET.count == "6" %}
+                {% include 'graphs/single-bank-graphs/graph6.html' %}
+            {% endif %}
+
+             <!--Displaying footer-->
+             {% if request.GET.count == "1" or request.GET.count == "2" %}
+                <div style="height: 60px;" class="footerSpace"></div>
+             {% elif request.GET.count == "3" or request.GET.count == "4" %}
+                <div style="height: 480px;" class="footerSpace"></div>
+             {% else %}
+                <div style="height: 40px;" class="footerSpace"></div>
+             {% endif %}
+             <p style="text-align: center;font-size: 12px;margin-bottom: 0px;" class="pdfFooter">
+                See BankInsights.io for Terms of Use<br>
+                Copyright © {% now "Y" %} Thomas Asset Group LLC.  All rights reserved.
+             </p>
+
+         </div>
+
+       </div>
+   </div>
+  </section>
+
+
+    <script>
+        // hiding things
+        function hideStuff(){
+            $('#pdf-wrapper').removeClass('pdf-wrapper2');
+            $('#pdf-wrapper').addClass('pdf-wrapper');
+            $('.downloaderGif').removeClass('show');
+            $('.downloaderGif').addClass('hide');
+            $('.graphstable2').css({marginTop:"0px"});
+            $('.footerSpace').css('display','none');
+        }
+
+        //Removing classes
+        $('#downloadBtn').click(function () {
+            $('.downloaderGif').removeClass('hide');
+            $('.downloaderGif').addClass('show');
+            $('#pdf-wrapper').removeClass('pdf-wrapper');
+            $('#pdf-wrapper').addClass('pdf-wrapper2');
+            $('.graphstable2').css({marginTop:"200px"});
+            $('.footerSpace').css('display','block');
+            setTimeout(hideStuff,3000)
+        });
+
+        // Generating PDF
+        window.onload = function () {
+          $('.xtick').css('display','none');
+        document.getElementById("downloadBtn")
+        .addEventListener("click", () => {
+            const report = document.getElementById('pdf-wrapper');
+            var opt = {
+                margin: 0,
+                filename: 'bank_graphs.pdf',
+                image: { type: 'jpeg', quality: 100 },
+                html2canvas: { scale: 2 },
+                jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
+            };
+            html2pdf().from(report).set(opt).save();
+            })
+        }
+
+    </script>
+
+{% endblock %}
